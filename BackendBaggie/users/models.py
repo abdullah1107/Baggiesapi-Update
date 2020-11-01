@@ -9,8 +9,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.postgres.fields import JSONField
 from django.core.serializers.json import DjangoJSONEncoder
 from datetime import datetime, timedelta
-import jwt
 from django.conf import settings
+from django.core.validators import RegexValidator
+import jwt
+import random
+import os
+import requests
 
 
 class BaseAbstractModel(models.Model):
@@ -100,7 +104,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin,BaseAbstractModel):
 	firstName     = models.CharField(max_length = 50, null=True)
 	lastName      = models.CharField(max_length = 50, null = True)
 	name          = models.CharField(max_length=100, null=True)
-	mobileNumber  = models.CharField(max_length= 15, unique=True)
+	mobileNumber  = models.CharField(max_length= 15, unique=True, null=True)
 	profileImage  = models.ImageField(upload_to='profiles/', null=True)
 	varificationNumber = models.CharField(null=True, max_length=350)
 	is_active     = models.BooleanField(default=True)
@@ -111,6 +115,8 @@ class CustomUser(AbstractBaseUser,PermissionsMixin,BaseAbstractModel):
 	auth_provider = models.CharField(
 		max_length=255, blank=False,
 		null=False, default=AUTH_PROVIDERS.get('email'))
+	phone_regex = RegexValidator( regex = r'^\+?1?\d{9,10}$', message ="Phone number must be entered in the format +919999999999. Up to 10 digits allowed.")
+    #phone       = models.CharField('Phone',validators =[phone_regex], max_length=10, unique = True,null=True)
 
 	REQUIRED_FIELDS = ['mobileNumber']
 	USERNAME_FIELD  = 'email'
@@ -174,7 +180,23 @@ class CustomUser(AbstractBaseUser,PermissionsMixin,BaseAbstractModel):
             'access': str(refresh.access_token)
 		}
 
+class PhoneOTP(models.Model):
 
+    phone_regex = RegexValidator( regex = r'^\+?1?\d{9,10}$', message ="Phone number must be entered in the format +919999999999. Up to 14 digits allowed.")
+    mobileNumber= models.CharField(max_length=17, unique = True)
+    otp         = models.CharField(max_length=9, blank = True, null=True)
+    count       = models.IntegerField(default=0, help_text = 'Number of otp_sent')
+    validated   = models.BooleanField(default = False, help_text = 'If it is true, that means user have validate otp correctly in second API')
+    otp_session_id = models.CharField(max_length=120, null=True, default = "")
+    #username    = models.CharField(max_length=20, blank = True, null = True, default = None )
+    email       = models.CharField(max_length=50, null = True, blank = True, default = None)
+    password    = models.CharField(max_length=100, null = True, blank = True, default = None)
+
+
+
+    def __str__(self):
+        return str(self.mobileNumber) + ' is sent ' + str(self.otp)
+		
 class BlackList(BaseAbstractModel):
     """
     This class defines black list model.

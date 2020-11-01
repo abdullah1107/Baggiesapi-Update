@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets # new
-from users.models import CustomUser
+from users.models import CustomUser,PhoneOTP
 from users.serializers import (
     RegisterVendonSerializer,
     RegisteCustomerSerializer,
@@ -26,6 +26,9 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse
+from django.http import HttpResponse
+import http.client
+conn = http.client.HTTPConnection("")
 
 # class GoogleAuthAPIView(APIView):
 #     """
@@ -257,6 +260,170 @@ class LogoutAPIView(generics.GenericAPIView):
         serializer.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+class ValidatePhoneSendOTP(APIView):
+
+    def post(self, request, *args, **kwargs):
+        mobileNumber = request.data.get('mobileNumber')
+        password = request.data.get('password', False)
+        email    = request.data.get('email', False)
+
+        if phone_number:
+            phone = str(mobileNumber)
+            user = CustomUser.objects.filter(phone__iexact = phone)
+            if user.exists():
+                return Response({
+                    'status' : False,
+                    'detail' : 'Phone number already exists'
+                })
+
+            else:
+                key = send_otp(phone)
+                if key:
+                    old = PhoneOTP.objects.filter(phone__iexact = phone)
+                    if old.exists():
+                        old = old.first()
+                        count = old.count
+                        if count > 10:
+                            return Response({
+                                'status' : False,
+                                'detail' : 'Sending otp error. Limit Exceeded. Please Contact Customer support'
+                            })
+
+                        old.count = count +1
+                        old.save()
+                        print('Count Increase', count)
+
+                        conn.request("GET", "https://2factor.in/API/R1/?module=SMS_OTP&apikey=1028fcd9-3158-11ea-9fa5-0200cd936042&to="+phone+"&otpvalue="+str(key)+"&templatename=WomenMark1")
+                        res = conn.getresponse()
+
+                        data = res.read()
+                        data=data.decode("utf-8")
+                        data=ast.literal_eval(data)
+
+
+                        if data["Status"] == 'Success':
+                            old.otp_session_id = data["Details"]
+                            old.save()
+                            print('In validate phone :'+old.otp_session_id)
+                            return Response({
+                                   'status' : True,
+                                   'detail' : 'OTP sent successfully'
+                                })
+                        else:
+                            return Response({
+                                  'status' : False,
+                                  'detail' : 'OTP sending Failed'
+                                })
+
+
+
+
+                    else:
+
+                        obj=PhoneOTP.objects.create(
+                            phone=phone,
+                            otp = key,
+                            email=email,
+                            password=password,
+                        )
+                        conn.request("GET", "https://2factor.in/API/R1/?module=SMS_OTP&apikey=1028fcd9-3158-11ea-9fa5-0200cd936042&to="+phone+"&otpvalue="+str(key)+"&templatename=WomenMark1")
+                        res = conn.getresponse()
+                        data = res.read()
+                        print(data.decode("utf-8"))
+                        data=data.decode("utf-8")
+                        data=ast.literal_eval(data)
+
+                        if data["Status"] == 'Success':
+                            obj.otp_session_id = data["Details"]
+                            obj.save()
+                            print('In validate phone :'+obj.otp_session_id)
+                            return Response({
+                                   'status' : True,
+                                   'detail' : 'OTP sent successfully'
+                                })
+                        else:
+                            return Response({
+                                  'status' : False,
+                                  'detail' : 'OTP sending Failed'
+                                })
+
+
+                else:
+                     return Response({
+                           'status' : False,
+                            'detail' : 'Sending otp error'
+                     })
+
+        else:
+            return Response({
+                'status' : False,
+                'detail' : 'Phone number is not given in post request'
+            })
+
+
+
+def send_otp(phone):
+    if phone:
+        key = random.randint(99999,999999)
+        print(key)
+        return key
+    else:
+        return False
+
+class ValidateOTP(APIView):
+
+    def post(self, request, *args, **kwargs):
+        mobileNumber = request.data.get('mobileNumber', False)
+        otp_sent = request.data.get('otp', False)
+
+
+        if phone and otp_sent:
+            old = PhoneOTP.objects.filter(phone__iexact = phone)
+            if old.exists():
+                old = old.first()
+                otp_session_id = old.otp_session_id
+                print("In validate otp"+otp_session_id)
+                conn.request("GET", "https://2factor.in/API/V1/1028fcd9-3158-11ea-9fa5-0200cd936042/SMS/VERIFY/"+otp_session_id+"/"+otp_sent)
+                res = conn.getresponse()
+                data = res.read()
+                print(data.decode("utf-8"))
+                data=data.decode("utf-8")
+                data=ast.literal_eval(data)
+
+
+
+                if data["Status"] == 'Success':
+                    old.validated = True
+                    old.save()
+                    return Response({
+                        'status' : True,
+                        'detail' : 'OTP MATCHED. Please proceed for registration.'
+                            })
+
+                else:
+                    return Response({
+                        'status' : False,
+                        'detail' : 'OTP INCORRECT'
+                    })
+
+
+
+            else:
+                return Response({
+                        'status' : False,
+                        'detail' : 'First Proceed via sending otp request'
+                    })
+
+
+        else:
+            return Response({
+                        'status' : False,
+                        'detail' : 'Please provide both phone and otp for Validation'
+                    })
 #
 # ##################### Request password to email ###################
 # class RequestPasswordResetEmail(generics.GenericAPIView):
