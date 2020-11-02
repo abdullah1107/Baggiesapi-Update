@@ -12,7 +12,6 @@ from productsImage.serializers import ProductImageSerializer
 
 
 class ProductsSerializer(serializers.ModelSerializer):
-    #ownerID        = ProductsCategorySerializer(read_only = True)
 
     product_image  = ProductImageSerializer(many=True,read_only = True)
     class Meta:

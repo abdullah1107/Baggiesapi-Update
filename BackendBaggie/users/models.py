@@ -1,6 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 from django.contrib.auth.models import (
@@ -17,30 +15,45 @@ import os
 import requests
 
 
-class BaseAbstractModel(models.Model):
-    """
-    This model defines base models that implements common fields like:
-    created_at
-    updated_at
-    is_deleted
-    """
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_deleted = models.BooleanField(default=False)
-
-    def soft_delete(self):
-        """Soft delete a model instance"""
-        self.is_deleted = True
-        self.save()
-
-    class Meta:
-        abstract = True
-        ordering = ['-created_at']
+# class CharNullField(models.CharField):
+#     """
+#     Subclass of the CharField that allows empty strings to be stored as NULL.
+#     This class is used to set charfield be optional but unique when added.
+#     Set blank=True, null=True when declaring the field
+#     """
+#     description = "CharField that stores NULL but returns ''."
+#
+#     def get_prep_value(self, value):
+#         """
+#         Catches value right before sending to db.
+#         """
+#         if value == '': # If Django tries to save an empty string, send the db None (NULL).
+#             return None
+#         else: # Otherwise, just pass the value.
+#             return value
+#
+#     def from_db_value(self, value, expression, connection):
+#         """
+#         Gets value right out of the db and changes it if its ``None``.
+#         """
+#         if value is None:
+#             return ''
+#         else:
+#             return value
+#
+#     def to_python(self, value):
+#         """
+#         Gets value right out of the db or an instance, and changes it if its ``None``.
+#         """
+#         if isinstance(value, models.CharField): # If an instance, just return the instance.
+#             return value
+#         if value is None: # If db has NULL, convert it to ''.
+#             return ''
+#         return value # Otherwise, just return the value.
 
 
 class MyAccountManager(BaseUserManager):
-	def create_vendoruser(self, firstName=None,lastName=None,email=None,mobileNumber=None,password=None,role='vendor'):
+	def create_vendoruser(self,vandorName=None, firstName=None,lastName=None,email=None,mobileNumber=None,password=None,role='vendor'):
 		if email is None:
 			raise TypeError('Users should have a Email')
 		if mobileNumber is None:
@@ -49,14 +62,20 @@ class MyAccountManager(BaseUserManager):
 			raise TypeError('User should have a FirstName')
 		if lastName is None:
 			raise TypeError('User should have a LastName')
+		if vandorName is None:
+			raise TypeError("Vandor should have a vandorName")
 		user = self.model(
+		vandorName=vandorName,
 		firstName =firstName,
 		lastName = lastName,
 		mobileNumber=mobileNumber,
 		email=self.normalize_email(email))
 		user.set_password(password)
 		user.role = role
-		user.save()
+		if firstName != None and lastName !=None:
+			user.save()
+		else:
+			return user
 		return user
 
 	def create_user(self,email=None,name=None, password=None,mobileNumber=None, role="customer"):
@@ -98,11 +117,12 @@ class MyAccountManager(BaseUserManager):
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
 				  'twitter': 'twitter', 'email': 'email'}
 
-class CustomUser(AbstractBaseUser,PermissionsMixin,BaseAbstractModel):
+class CustomUser(AbstractBaseUser,PermissionsMixin):
 	username      = None
 	email         = models.EmailField(verbose_name = "email", max_length = 35, unique =True)
 	firstName     = models.CharField(max_length = 50, null=True)
 	lastName      = models.CharField(max_length = 50, null = True)
+	vandorName    = models.CharField(max_length=350, null=True, unique=True)
 	name          = models.CharField(max_length=100, null=True)
 	mobileNumber  = models.CharField(max_length= 15, unique=True, null=True)
 	profileImage  = models.ImageField(upload_to='profiles/', null=True)
@@ -112,6 +132,8 @@ class CustomUser(AbstractBaseUser,PermissionsMixin,BaseAbstractModel):
 	is_verified   = models.BooleanField(default=False)
 	provider      = models.CharField(max_length=25, null=True)
 	role          = models.CharField(max_length=15, default='customer')
+	created_at    = models.DateTimeField(auto_now_add=True)
+	updated_at    = models.DateTimeField(auto_now=True)
 	auth_provider = models.CharField(
 		max_length=255, blank=False,
 		null=False, default=AUTH_PROVIDERS.get('email'))
@@ -196,7 +218,30 @@ class PhoneOTP(models.Model):
 
     def __str__(self):
         return str(self.mobileNumber) + ' is sent ' + str(self.otp)
-		
+
+
+
+class BaseAbstractModel(models.Model):
+    """
+    This model defines base models that implements common fields like:
+    created_at
+    updated_at
+    is_deleted
+    """
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
+
+    def soft_delete(self):
+        """Soft delete a model instance"""
+        self.is_deleted = True
+        self.save()
+
+    class Meta:
+        abstract = True
+        ordering = ['-created_at']
+
 class BlackList(BaseAbstractModel):
     """
     This class defines black list model.

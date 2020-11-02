@@ -30,27 +30,6 @@ from django.http import HttpResponse
 import http.client
 conn = http.client.HTTPConnection("")
 
-# class GoogleAuthAPIView(APIView):
-#     """
-#     Manage Google Login
-#     """
-#     renderer_classes = (UserJSONRenderer,)
-#     serializer_class = GoogleAuthSerializer
-#
-#     def post(self, request):
-#         """
-#         Create a user is not exist
-#         Retrieve and return authenticated user token
-#         :param request:
-#         :return: token
-#         """
-#         serializer = self.serializer_class(data=request.data.get('google', {}))
-#         serializer.is_valid(raise_exception=True)
-#         return Response({
-#             'token': serializer.validated_data['token'],
-#             'user_exists': serializer.validated_data['user_exists'],
-#             "message": serializer.validated_data['message']
-#         }, status=status.HTTP_200_OK)
 
 class CustomRedirect(HttpResponsePermanentRedirect):
 

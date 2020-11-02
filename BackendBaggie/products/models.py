@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import CustomUser
 from productsCategory.models import ProductsCategory
+
 # Create your models here.
 def upload_productCoverImage(instance, filename, **kwargs):
 	file_path = 'prodcutCoverImage/{productID}/{productName}-{filename}'.format(
@@ -22,6 +23,7 @@ class Products(models.Model):
     productImage    = models.FileField(blank=True)
     productUpdate   = models.DateTimeField(auto_now=True)
     productdiscount = models.BooleanField(default= False)
+	productVarified = models.BooleanField(default=False)
     isrecentproduct = models.CharField(choices=CATEGORY_OPTIONS, max_length=100)
     owner           = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, null=True)
     productcategoryID = models.ForeignKey(ProductsCategory, on_delete=models.DO_NOTHING)
@@ -31,10 +33,3 @@ class Products(models.Model):
 
     def __str__(self):
         return str(self.productName)
-
-# class ProductImage(models.Model):
-#     productID = models.ForeignKey(Products, default=None, on_delete=models.CASCADE)
-#     images    = models.FileField(upload_to = 'productimages/')
-#
-#     def __str__(self):
-#         return self.productID.productName
