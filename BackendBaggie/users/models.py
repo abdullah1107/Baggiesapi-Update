@@ -15,43 +15,6 @@ import os
 import requests
 
 
-# class CharNullField(models.CharField):
-#     """
-#     Subclass of the CharField that allows empty strings to be stored as NULL.
-#     This class is used to set charfield be optional but unique when added.
-#     Set blank=True, null=True when declaring the field
-#     """
-#     description = "CharField that stores NULL but returns ''."
-#
-#     def get_prep_value(self, value):
-#         """
-#         Catches value right before sending to db.
-#         """
-#         if value == '': # If Django tries to save an empty string, send the db None (NULL).
-#             return None
-#         else: # Otherwise, just pass the value.
-#             return value
-#
-#     def from_db_value(self, value, expression, connection):
-#         """
-#         Gets value right out of the db and changes it if its ``None``.
-#         """
-#         if value is None:
-#             return ''
-#         else:
-#             return value
-#
-#     def to_python(self, value):
-#         """
-#         Gets value right out of the db or an instance, and changes it if its ``None``.
-#         """
-#         if isinstance(value, models.CharField): # If an instance, just return the instance.
-#             return value
-#         if value is None: # If db has NULL, convert it to ''.
-#             return ''
-#         return value # Otherwise, just return the value.
-
-
 class MyAccountManager(BaseUserManager):
 	def create_vendoruser(self,vandorName=None, firstName=None,lastName=None,email=None,mobileNumber=None,password=None,role='vendor'):
 		if email is None:
@@ -125,7 +88,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 	vandorName    = models.CharField(max_length=350, null=True, unique=True)
 	name          = models.CharField(max_length=100, null=True)
 	mobileNumber  = models.CharField(max_length= 15, unique=True, null=True)
-	profileImage  = models.ImageField(upload_to='profiles/', null=True)
+	profileImage  = models.ImageField(upload_to='profiles/', null=True, blank=True)
 	varificationNumber = models.CharField(null=True, max_length=350)
 	is_active     = models.BooleanField(default=True)
 	is_staff      = models.BooleanField(default= False)
