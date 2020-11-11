@@ -1,6 +1,8 @@
 from django.urls import path
 #from productsCategory.views import ProductsCategoryListAPIView, ProductsCategoryDetailAPIView
 from productsCategory.views import(
+    #ProductsCategoryListAPIView,
+    #ProductCategoryList,
     ProductsCategoryListAPIView,
     #ProductsCategorycreateAPIView,
     api_update_productCategory_view,
@@ -10,10 +12,10 @@ from productsCategory.views import(
 )
 app_name = "productsCategory"
 urlpatterns = [
-     path('list/', ProductsCategoryListAPIView.as_view(), name = "List"),
-     #path('create/', ProductsCategorycreateAPIView.as_view(), name = "create"),
+     #path('', ProductCategoryList.as_view(), name = "List"),
+     path('', ProductsCategoryListAPIView.as_view(), name = "list"),
      #path('<int:id>', ProductsCategoryDetailAPIView.as_view(), name = "pCategoryDetails"),
-     path('create/', api_create_productCategory_view, name="create"),
+     #path('create/', api_create_productCategory_view, name="create"),
      path('update/<int:pk>', api_update_productCategory_view, name="update"),
      path('delete/<int:pk>', api_delete_productCategory_view, name="delete"),
 ]

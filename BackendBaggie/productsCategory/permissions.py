@@ -1,12 +1,5 @@
 # from rest_framework import permissions
-#
-# class IsOwner(permissions.BasePermission):
-#
-#     def has_object_permission(self, request, view, obj):
-#         print("hello")
-#         if request.method == 'GET':
-#             return True
-#         return obj.owner == request.user
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 # class IsAuthorOrReadOnly(permissions.BasePermission):
 #     # Read-only permissions are allowed for any request
@@ -15,13 +8,46 @@
 #             return False
 #         else:
 #             return True
-# class IsProductCateOrIsAuthenticated(permissions.BasePermission):
+# class IsCustomerOrReadOnly(BasePermission):
+#     """ Check if user is buyer and logged in then grants access."""
 #
 #     def has_permission(self, request, view):
-#         # allow all POST requests
-#         if request.method == 'GET':
-#             return True
+#         return bool(
+#             request.method in SAFE_METHODS or
+#             request.user and
+#             request.user.is_authenticated and
+#             request.user.role == 'BY'
+#         )
+# class ReadOnly(BasePermission):
+#     """Allow ReadOnly permissions if the request is a safe method"""
 #
-#         # Otherwise, only allow authenticated requests
-#         # Post Django 1.10, 'is_authenticated' is a read-only attribute
-#         return request.user and request.user.is_authenticated
+#     def has_permission(self, request, view):
+#         return request.method in SAFE_METHODS
+
+class CanEditProperty(BasePermission):
+    """Client admins should be able to edit property they own"""
+
+    def has_permission(self, request, view):
+        print('user hi :', request.user.id)
+        user = request.user
+        if request.method in SAFE_METHODS:
+            return True
+        if user.role == 'vendor' and user.id:
+            return True
+        else:
+            return False
+        #return request.method in SAFE_METHODS
+
+    # def has_object_permission(self, request, view, obj):
+    #     print("hiiiiiiiiiiii.....")
+    #     print(request.method)
+    #     # print('user hi:', request.user.id)
+    #     user = request.user
+    #     if user.role == 'vendor' and user.id == obj.id:
+    #         return True
+    #     return False
+        # if request.method in SAFE_METHODS:
+        #     return True
+        # if user.role == 'vendor':
+        #     return True
+        # return False

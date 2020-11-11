@@ -11,6 +11,7 @@ from users.views import (
     SetNewPasswordAPIView,
     LogoutAPIView,
     RequestPasswordResetEmail,
+    AccountlistView,
     )
 from users.socialViews import (
    GoogleSocialAuthView,
@@ -38,6 +39,8 @@ path('password-reset-complete', SetNewPasswordAPIView.as_view(),
 path('logout/', LogoutAPIView.as_view(), name="logout"),
 #####################################################################
 path('social/google/', GoogleSocialAuthView.as_view()),
+
+path('customerlist/', AccountlistView.as_view()),
 
 ]
 

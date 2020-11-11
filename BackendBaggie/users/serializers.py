@@ -256,7 +256,7 @@ class LogoutSerializer(serializers.Serializer):
 # 			raise AuthenticationFailed('The reset link is invalid', 401)
 # 		return super().validate(attrs)
 #
-# class CustomUserSerilizer(serializers.ModelSerializer):
-# 	class Meta:
-# 		model  = CustomUser
-# 		fields = ('id', 'username', 'email', 'mobileNumber')
+class CustomUserSerilizer(serializers.ModelSerializer):
+	class Meta:
+		model  = CustomUser
+		fields = ('id','email','mobileNumber','role')

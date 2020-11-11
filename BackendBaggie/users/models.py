@@ -13,6 +13,8 @@ import jwt
 import random
 import os
 import requests
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill, ResizeToFill
 
 
 class MyAccountManager(BaseUserManager):

@@ -10,6 +10,7 @@ from users.serializers import (
     SetNewPasswordSerializer,
     LogoutSerializer,
     ResetPasswordEmailRequestSerializer,
+    CustomUserSerilizer,
     )
 from users.utils import Util
 from users.renderers import UserRenderer,UserJSONRenderer
@@ -190,6 +191,11 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
         except DjangoUnicodeDecodeError as identifier:
             if not PasswordResetTokenGenerator().check_token(user):
                 return Response({'error':'Token is not valid, please Try a new one'})
+
+class AccountlistView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerilizer
+
 
 # class PasswordTokenCheckAPI(generics.GenericAPIView):
 #     serializer_class = SetNewPasswordSerializer

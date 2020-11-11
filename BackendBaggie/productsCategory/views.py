@@ -4,15 +4,45 @@ from headers import *
 from django_filters import rest_framework as filters
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView,CreateAPIView
+from productsCategory.permissions import CanEditProperty
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
+from permissions import *
 
+# class ProductCategoryList(APIView):
+#
+# 	def get(self, request, format=None):
+# 		productcategory = ProductsCategory.objects.all()
+# 		serializer = ProductsCategorySerializer(productcategory, many=True)
+# 		return Response(serializer.data)
+#
+# 	def post(self, request, format=None):
+# 		serializer = ProductCategoryCreateSerializer(data=request.data)
+# 		permission_classes = [CanEditProperty,]
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#
+#
+#
+class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 
+	queryset = ProductsCategory.objects.all()
+	serializer_class = ProductCategoryCreateSerializer
+	permission_classes = [CanEditProperty,]
+	filter_backends = (filters.DjangoFilterBackend,)
+	filterset_fields = ('categoryName',)
 
-# class ProductsCategoryListAPIView(generics.ListCreateAPIView):
-#     permission_classes = [IsOwner,]
-#     queryset = ProductsCategory.objects.all()
-#     serializer_class = ProductsCategorySerializer
-#     # filter_backends = (filters.DjangoFilterBackend,)
-#     # filterset_fields = ('categoryName',)
+	# def perform_create(self, serializer):
+	# 	user = self.request.user
+	# 	print(user)
+	# 	if user.role=="vendor" and self.request.user == owner:
+	# 		return serializer.save(owner=self.request.user)
+
+	# def get_queryset(self):
+	#     return self.queryset.filter(owner=self.request.user)
 #
 # class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 #
@@ -43,7 +73,7 @@ UPDATE_SUCCESS = 'updated'
 CREATE_SUCCESS = 'created'
 
 @api_view(['PUT'])
-#@permission_classes(())
+@permission_classes((IsAuthenticated))
 def api_update_productCategory_view(request,pk):
 	try:
 		info_productCategory = ProductsCategory.objects.get(pk=pk)
@@ -63,30 +93,30 @@ def api_update_productCategory_view(request,pk):
 			return Response(data=data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-#@permission_classes(())
-def api_create_productCategory_view(request):
-
-	if request.method == 'POST':
-
-		print("inside create method!!!!!")
-		data = request.data
-		print(data)
-		serializerboard = ProductCategoryCreateSerializer(data=data)
-
-		data = {}
-		if serializerboard.is_valid():
-			info_productCategory  = serializerboard.save()
-			data['response']      = CREATE_SUCCESS
-			data['categoryName']  = info_productCategory.categoryName
-			data['created_at']    = info_productCategory.created_at
-			data['updated_at']    = info_productCategory.updated_at
-			data['owner']      = info_productCategory.owner
-			return Response(data=data)
-		return Response(serializerboard.errors, status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated,CanEditProperty,))
+# def api_create_productCategory_view(request):
+#
+# 	if request.method == 'POST':
+#
+# 		print("inside create method!!!!!")
+# 		data = request.data
+# 		#print(data)
+# 		serializerboard = ProductCategoryCreateSerializer(data=data)
+#
+# 		data = {}
+# 		if serializerboard.is_valid():
+# 			info_productCategory  = serializerboard.save()
+# 			data['response']      = CREATE_SUCCESS
+# 			# data['categoryName']  = info_productCategory.categoryName
+# 			# data['created_at']    = info_productCategory.created_at
+# 			# data['updated_at']    = info_productCategory.updated_at
+# 			# data['owner']         = info_productCategory.owner
+# 			return Response(data=data)
+# 		return Response(serializerboard.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE',])
-#@permission_classes(())
+@permission_classes(())
 def api_delete_productCategory_view(request, pk):
 
 	try:
@@ -104,9 +134,9 @@ def api_delete_productCategory_view(request, pk):
 
 
 #show list
-class ProductsCategoryListAPIView(ListAPIView):
-	queryset = ProductsCategory.objects.all()
-	serializer_class = ProductsCategorySerializer
+# class ProductsCategoryListAPIView(ListAPIView):
+# 	queryset = ProductsCategory.objects.all()
+# 	serializer_class = ProductsCategorySerializer
 #
 # class ProductsCategorycreateAPIView(CreateAPIView):
 # 	queryset = ProductsCategory.objects.all()
