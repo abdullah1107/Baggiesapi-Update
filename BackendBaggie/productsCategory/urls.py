@@ -6,7 +6,7 @@ from productsCategory.views import(
     ProductsCategoryListAPIView,
     #ProductsCategorycreateAPIView,
     api_update_productCategory_view,
-    api_create_productCategory_view,
+    #api_create_productCategory_view,
     api_delete_productCategory_view,
     #ProductsCategoryDetailAPIView,
 )
