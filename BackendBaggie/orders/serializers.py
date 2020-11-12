@@ -2,17 +2,16 @@ from rest_framework import serializers
 from orders.models import Order
 
 class OrderSerializer(serializers.ModelSerializer):
-    #ownerID = serializers.ReadOnlyField(source='owner.id')
     class Meta:
         model = Order
-        fields = ('id',
-        'owner',
+        fields = (
+        'id',
+        'customerID',
         'addressOne',
         'addressTwo',
         'city',
-        'country',
-        'orderPhoneNumber',
-        'otherPhoneNunber',
+        'phonenumber',
+        'additionalnumber',
         'orderemail',
         'orderDate',
         'orderShipped',

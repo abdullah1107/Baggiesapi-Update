@@ -89,7 +89,7 @@ def api_update_productCategory_view(request,pk):
 			data['pk']           = info_productCategory.pk
 			data['categoryName'] = info_productCategory.categoryName
 			data['updated_at']   = info_productCategory.updated_at
-			data['owner']        = info_productCategory.owner
+			data['vendorID']        = info_productCategory.vendorID
 			return Response(data=data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

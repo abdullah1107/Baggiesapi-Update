@@ -17,18 +17,26 @@ class ProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         fields = ('id',
-        'productName',
-        'productPrice',
-        'productWeight',
-        'productCoverImage',
-        'productInStock',
+        'productname',
+        'productpriceoriginal',
+        'productpricesell',
+        'percentageofsell',
+        'productweight',
+        'productinstock',
+        'productcoverImage',
         'productDetails',
         'productUpdate',
         'productdiscount',
+        'productapprovalstatus',
         'isrecentproduct',
         'product_image',
-        'owner',
+        'vendorID',
         'productcategoryID')
+
+
+
+
+        
     # def create(self, validated_data):
     #     images_data = self.context.get('images').request.FILES
     #     product = Products.objects.create(productName=validated_data.get('productName'),

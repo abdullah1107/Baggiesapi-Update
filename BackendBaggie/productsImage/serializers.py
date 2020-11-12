@@ -5,4 +5,4 @@ class ProductImageSerializer(serializers.ModelSerializer):
     ownerID = serializers.ReadOnlyField(source='owner.id')
     class Meta:
         model = ProductImage
-        fields = ('id','imageName','productID','image', 'updated_at','ownerID')
+        fields = ('id','productID','image', 'updated_at','ownerID')

@@ -10,26 +10,28 @@ def upload_productCoverImage(instance, filename, **kwargs):
 	return file_path
 
 class Products(models.Model):
-    CATEGORY_OPTIONS = [
-          ('is_new', 'is_new'),
-          ('not_new', 'not_new')
-      ]
-    productName     = models.CharField(max_length=350, null=True)
-    productPrice    = models.DecimalField(max_digits=20, decimal_places=3, null=True)
-    productWeight   = models.CharField(max_length = 35, null = True)
-    productInStock  = models.CharField(max_length = 30, null=True)
-    productCoverImage= models.ImageField(upload_to='upload_productCoverImage',null=True)
-    productDetails  = models.TextField(null=True)
-    productImage    = models.FileField(blank=True)
-    productUpdate   = models.DateTimeField(auto_now=True)
-    productdiscount = models.BooleanField(default= False)
-	productVarified = models.BooleanField(default=False)
-    isrecentproduct = models.CharField(choices=CATEGORY_OPTIONS, max_length=100)
-    owner           = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, null=True)
-    productcategoryID = models.ForeignKey(ProductsCategory, on_delete=models.DO_NOTHING)
+	CATEGORY_OPTIONS = [
+		  ('is_new', 'is_new'),
+		  ('not_new', 'not_new')
+	  ]
+	productname             = models.CharField(max_length=350, null=True)
+	productpriceoriginal    = models.DecimalField(max_digits=20, decimal_places=3, null=True)
+	productpricesell        = models.DecimalField(max_digits=20, decimal_places=3, null=True)
+	percentageofsell        = models.CharField(max_length = 35, null = True, blank=True)
+	productweight           = models.CharField(max_length = 35, null = True)
+	productinstock          = models.BooleanField(default=True)
+	productcoverImage       = models.ImageField(upload_to='upload_productCoverImage',null=True)
+	productDetails          = models.TextField(null=True)
+	#productImage            = models.FileField(blank=True, null=True)
+	productUpdate           = models.DateTimeField(auto_now=True)
+	productdiscount         = models.BooleanField(default= False)
+	productapprovalstatus   = models.BooleanField(default=False)
+	isrecentproduct         = models.CharField(choices=CATEGORY_OPTIONS, max_length=100)
+	vendorID                = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, null=True)
+	productcategoryID       = models.ForeignKey(ProductsCategory, on_delete=models.DO_NOTHING)
 
-    class Meta:
-        ordering: ['-productUpdate']
+	class Meta:
+		ordering: ['-productUpdate']
 
-    def __str__(self):
-        return str(self.productName)
+	def __str__(self):
+		return str(self.productName)

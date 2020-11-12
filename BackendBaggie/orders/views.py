@@ -11,8 +11,6 @@ class PostUserWritePermission(BasePermission):
     message = 'Editing posts is restricted to the author only.'
 
     def has_object_permission(self, request, view, obj):
-        print("request.user", request.user)
-        print("obj.owner",obj.owner)
 
         if request.method in SAFE_METHODS:
             return True

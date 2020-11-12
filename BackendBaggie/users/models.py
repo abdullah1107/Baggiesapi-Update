@@ -69,8 +69,6 @@ class MyAccountManager(BaseUserManager):
 
 		user = self.model(
 		mobileNumber=mobileNumber,
-		firstName=firstName,
-		lastName=lastName,
 		email=self.normalize_email(email))
 		user.set_password(password)
 		user.is_superuser = True

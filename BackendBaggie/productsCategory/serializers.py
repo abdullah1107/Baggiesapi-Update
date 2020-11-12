@@ -6,26 +6,26 @@ class ProductsCategorySerializer(serializers.ModelSerializer):
 	#owner = serializers.ReadOnlyField(source='owner.id')
 	class Meta:
 		model = ProductsCategory
-		fields = ('id','categoryName','created_at', 'updated_at','owner')
+		fields = ('id','categoryName','created_at', 'updated_at','vendorID')
 
 class ProductCategoryCreateSerializer(serializers.ModelSerializer):
 	#categoryName = serializers.CharField(max_length=15, write_only=True)
 	class Meta:
 		model = ProductsCategory
-		fields = ('id','categoryName','created_at', 'updated_at','owner')
+		fields = ('id','categoryName','created_at', 'updated_at','vendorID')
 
 		def save(self):
 			try:
 				categoryName = self.validated_data['categoryName']
 				created_at   = self.validated_data['created_at']
 				updated_at   = self.validated_data['updated_at']
-				owner        = self.validated_data['owner']
+				ownerID        = self.validated_data['vendorID']
 
 				pcategory    = ProductsCategory(
 				             categoryName=categoryName,
 							 created_at  = created_at,
 							 updated_at  = updated_at,
-							 owner       = owner)
+							 vendorID       = vendorID)
 				pcategory.save()
 				return pcategory
 			except KeyError:

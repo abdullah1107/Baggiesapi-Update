@@ -59,11 +59,12 @@ INSTALLED_APPS = [
     #local app
     'users',
     'productsCategory',
-    # 'products',
-    # 'orders',
-    # 'orderDetails',
-    # 'productsImage',
-    # 'customers',
+    'products',
+    'orders',
+    'orderDetails',
+    'productsImage',
+    'cartview',
+    'reviewproduct',
 ]
 
 MIDDLEWARE = [
@@ -108,17 +109,17 @@ WSGI_APPLICATION = 'Baggie.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'postgresql',
-#                                                  # 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': os.path.join(BASE_DIR, 'example.db'),  # Or path to database file if using sqlite3.
-#         'USER': '',                      # Not used with sqlite3.
-#         'PASSWORD': '',                  # Not used with sqlite3.
-#         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-#         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'postgresql',
+                                                 # 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.path.join(BASE_DIR, 'baggie.db'),  # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
 
 # DATABASES = {
 # 'default': {
@@ -130,19 +131,19 @@ WSGI_APPLICATION = 'Baggie.wsgi.application'
 #     'PORT': 5432
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'postgres'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
-        'TEST': {
-            'NAME': 'test_db'
-        }
-    },
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('DB_NAME', 'postgres'),
+#         'USER': os.environ.get('DB_USER', 'postgres'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
+#         'HOST': os.environ.get('DB_HOST', 'localhost'),
+#         'PORT': os.environ.get('DB_PORT', '5432'),
+#         'TEST': {
+#             'NAME': 'test_db'
+#         }
+#     },
+# }
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',

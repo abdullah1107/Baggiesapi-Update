@@ -28,17 +28,19 @@ urlpatterns = [
      #productsCategory
      path('productCategory/', include('productsCategory.urls')),
      # #products
-     # path('products/', include('products.urls')),
-     #
-     # path('orders/', include('orders.urls')),
-     #
-     # path('orderdetails/', include('orderDetails.urls')),
-     #
-     #
-     # path('productImage/',include('productsImage.urls')),
-    # path('api/auth/', include('rest_framework_social_oauth2.urls')),
+     path('products/', include('products.urls')),
 
-    #path('auth_backends/', include('users.urls')),
+     path('orders/', include('orders.urls')),
+
+     path('orderdetails/', include('orderDetails.urls')),
+
+
+     path('productImage/',include('productsImage.urls')),
+
+    # path('reviewproduct/', include('reviewproduct.urls')),
+
+     #path('cartview/', include('cartview.urls')),
+
     ##########################################################################
     path('', schema_view.with_ui('swagger',
                                  cache_timeout=0), name='schema-swagger-ui'),
@@ -48,13 +50,8 @@ urlpatterns = [
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
-
-
-
-    #when you go to -> 127.0.0.1:8000/accounts/ then you can see the list of urls
-    # User management
-
-    #for token
-    # path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+#when you go to -> 127.0.0.1:8000/accounts/ then you can see the list of urls
+# User management
+#for token
+# path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+# path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
