@@ -12,4 +12,4 @@ class ProductsCategory(models.Model):
         ordering: ['-updated_at']
 
     def __str__(self):
-        return str(self.owner)
+        return str(self.vendorID)
