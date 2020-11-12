@@ -5,17 +5,17 @@ from productsCategory.views import(
     #ProductCategoryList,
     ProductsCategoryListAPIView,
     #ProductsCategorycreateAPIView,
-    api_update_productCategory_view,
+    #api_update_productCategory_view,
     #api_create_productCategory_view,
-    api_delete_productCategory_view,
-    #ProductsCategoryDetailAPIView,
+    #api_delete_productCategory_view,
+    ProductsCategoryDetailAPIView,
 )
 app_name = "productsCategory"
 urlpatterns = [
      #path('', ProductCategoryList.as_view(), name = "List"),
      path('', ProductsCategoryListAPIView.as_view(), name = "list"),
-     #path('<int:id>', ProductsCategoryDetailAPIView.as_view(), name = "pCategoryDetails"),
+     path('<int:id>', ProductsCategoryDetailAPIView.as_view(), name = "pCategoryDetails"),
      #path('create/', api_create_productCategory_view, name="create"),
-     path('update/<int:pk>', api_update_productCategory_view, name="update"),
-     path('delete/<int:pk>', api_delete_productCategory_view, name="delete"),
+     #path('update/<int:pk>', api_update_productCategory_view, name="update"),
+     #path('delete/<int:pk>', api_delete_productCategory_view, name="delete"),
 ]

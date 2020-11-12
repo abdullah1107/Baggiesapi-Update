@@ -21,7 +21,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
      path('admin/', admin.site.urls),
-     #path('accounts/', include('allauth.urls')),
+     #path('accounts/login/vendor/', include('allauth.urls')),
+
      # Local apps #############################################################
      path('auth/', include('users.urls')),
 
@@ -33,7 +34,6 @@ urlpatterns = [
      path('orders/', include('orders.urls')),
 
      path('orderdetails/', include('orderDetails.urls')),
-
 
      path('productImage/',include('productsImage.urls')),
 

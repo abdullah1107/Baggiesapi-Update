@@ -44,13 +44,13 @@ class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 	# def get_queryset(self):
 	#     return self.queryset.filter(owner=self.request.user)
 #
-# class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-#
-# 	permission_classes = [permissions.IsAuthenticated]
-# 	queryset = ProductsCategory.objects.all()
-# 	serializer_class = ProductsCategorySerializer
-#
-# 	lookup_field = "id"
+class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+
+	permission_classes = [CanEditProperty,]
+	queryset = ProductsCategory.objects.all()
+	serializer_class = ProductsCategorySerializer
+
+	lookup_field = "id"
 
 # class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView,PostUserWritePermission):
 #
@@ -66,32 +66,32 @@ class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 #     serializer_class = PostSerializer
 
 
-SUCCESS = 'success'
-ERROR = 'error'
-DELETE_SUCCESS = 'deleted'
-UPDATE_SUCCESS = 'updated'
-CREATE_SUCCESS = 'created'
-
-@api_view(['PUT'])
-@permission_classes((IsAuthenticated))
-def api_update_productCategory_view(request,pk):
-	try:
-		info_productCategory = ProductsCategory.objects.get(pk=pk)
-	except ProductsCategory.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
-
-	if request.method == 'PUT':
-		serializer = ProductsCategorySerializer(info_productCategory, data=request.data, partial=True)
-		data = {}
-		if serializer.is_valid():
-			serializer.save()
-			data['response']     = UPDATE_SUCCESS
-			data['pk']           = info_productCategory.pk
-			data['categoryName'] = info_productCategory.categoryName
-			data['updated_at']   = info_productCategory.updated_at
-			data['vendorID']        = info_productCategory.vendorID
-			return Response(data=data)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# SUCCESS = 'success'
+# ERROR = 'error'
+# DELETE_SUCCESS = 'deleted'
+# UPDATE_SUCCESS = 'updated'
+# CREATE_SUCCESS = 'created'
+#
+# @api_view(['PUT'])
+# @permission_classes((IsAuthenticated))
+# def api_update_productCategory_view(request,pk):
+# 	try:
+# 		info_productCategory = ProductsCategory.objects.get(pk=pk)
+# 	except ProductsCategory.DoesNotExist:
+# 		return Response(status=status.HTTP_404_NOT_FOUND)
+#
+# 	if request.method == 'PUT':
+# 		serializer = ProductsCategorySerializer(info_productCategory, data=request.data, partial=True)
+# 		data = {}
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			data['response']     = UPDATE_SUCCESS
+# 			data['pk']           = info_productCategory.pk
+# 			data['categoryName'] = info_productCategory.categoryName
+# 			data['updated_at']   = info_productCategory.updated_at
+# 			data['vendorID']        = info_productCategory.vendorID
+# 			return Response(data=data)
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['POST'])
 # @permission_classes((IsAuthenticated,CanEditProperty,))
@@ -115,22 +115,22 @@ def api_update_productCategory_view(request,pk):
 # 			return Response(data=data)
 # 		return Response(serializerboard.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE',])
-@permission_classes(())
-def api_delete_productCategory_view(request, pk):
-
-	try:
-		info_notify = ProductsCategory.objects.get(pk=pk)
-	except ProductsCategory.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-	if request.method == 'DELETE':
-		operation = info_notify.delete()
-		data = {}
-		if operation:
-			data['response'] = DELETE_SUCCESS
-		return Response(data=data)
+# @api_view(['DELETE',])
+# @permission_classes(())
+# def api_delete_productCategory_view(request, pk):
+#
+# 	try:
+# 		info_notify = ProductsCategory.objects.get(pk=pk)
+# 	except ProductsCategory.DoesNotExist:
+# 		return Response(status=status.HTTP_404_NOT_FOUND)
+#
+#
+# 	if request.method == 'DELETE':
+# 		operation = info_notify.delete()
+# 		data = {}
+# 		if operation:
+# 			data['response'] = DELETE_SUCCESS
+# 		return Response(data=data)
 
 
 #show list
