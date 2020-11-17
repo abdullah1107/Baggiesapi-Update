@@ -7,13 +7,8 @@ from productsImage.serializers import ProductNestedImageSerializer
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 # from products.models import ProductImage
 
-# class ProductImageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ProductImage
-#         fields = ('image',)
-
-
 class ProductsSerializer(WritableNestedModelSerializer):
+    # query_set = ProductImage.objects.all()
     product_image  = ProductNestedImageSerializer(many=True)
     class Meta:
         model = Products
@@ -55,3 +50,31 @@ class ProductsSerializer(WritableNestedModelSerializer):
     #     for image_data in images_data.values():
     #         ProductImage.objects.create(product=product, productImage=image_data)
     #     return product
+
+
+
+
+# class ProductImageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ProductImage
+#         fields = ('image',)
+
+# class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+#     """
+#     A ModelSerializer that takes an additional `fields` argument that
+#     controls which fields should be displayed.
+#     """
+#
+#     def __init__(self, *args, **kwargs):
+#         # Don't pass the 'fields' arg up to the superclass
+#         fields = kwargs.pop('fields', None)
+#
+#         # Instantiate the superclass normally
+#         super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
+#
+#         if fields is not None:
+#             # Drop any fields that are not specified in the `fields` argument.
+#             allowed = set(fields)
+#             existing = set(self.fields)
+#             for field_name in existing - allowed:
+#                 self.fields.pop(field_name)

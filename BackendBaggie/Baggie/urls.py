@@ -37,7 +37,7 @@ urlpatterns = [
 
      path('productImage/',include('productsImage.urls')),
 
-     path('exam/', include('poll.urls')),
+     #path('exam/', include('poll.urls')),
 
     # path('reviewproduct/', include('reviewproduct.urls')),
 
