@@ -31,7 +31,7 @@ class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 
 	queryset = ProductsCategory.objects.all()
 	serializer_class = ProductCategoryCreateSerializer
-	permission_classes = [CanEditProperty,]
+	#permission_classes = [CanEditProperty,]
 	filter_backends = (filters.DjangoFilterBackend,)
 	filterset_fields = ('categoryName',)
 
@@ -46,7 +46,7 @@ class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 #
 class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
-	permission_classes = [CanEditProperty,]
+	#permission_classes = [CanEditProperty,]
 	queryset = ProductsCategory.objects.all()
 	serializer_class = ProductsCategorySerializer
 

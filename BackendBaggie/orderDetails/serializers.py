@@ -1,19 +1,35 @@
 from rest_framework import serializers
 from orderDetails.models import OrderDetails
 #from users.models import CustomUser
-from orders.models import Order
-from products.models import Products
+# from orders.models import Order
+# from products.models import Products
 
-class OrderDetailsSerializer(serializers.ModelSerializer):
-    #order_ID = serializers.ReadOnlyField(source='order_ID.id')
+class OrderNestedDetailsSerializer(serializers.ModelSerializer):
+    #orders = serializers.ReadOnlyField(source='orderID')
+    #id = serializers.IntegerField(required=False)
     class Meta:
         model = OrderDetails
         fields = (
-        'id',
         'productID',
-        'oderID',
+        'order',
         'orderDetailsName',
         'orderprice',
         'orderQuantity',
         'toalprice'
         )
+        read_only_fields=('order',)
+
+class OrderDetailsSerializer(serializers.ModelSerializer):
+    #orders = serializers.ReadOnlyField(source='orderID')
+    #id = serializers.IntegerField(required=False)
+    class Meta:
+        model = OrderDetails
+        fields = (
+        'productID',
+        'order',
+        'orderDetailsName',
+        'orderprice',
+        'orderQuantity',
+        'toalprice'
+        )
+        read_only_fields=('order',)

@@ -6,13 +6,13 @@ from headers import *
 
 # Create your views here.
 class ProductImageListAPIView(ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,IsAuthorOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticated,IsAuthorOrReadOnly,)
     serializer_class = ProductImageSerializer
     queryset = ProductImage.objects.all()
 
 
-    def perform_create(self, serializer):
-        return serializer.save(owner=self.request.user)
+    # def perform_create(self, serializer):
+    #     return serializer.save(owner=self.request.user)
 
     # def get_queryset(self):
     #     return self.queryset.filter(owner=self.request.user)
@@ -20,6 +20,6 @@ class ProductImageListAPIView(ListCreateAPIView):
 
 class ProductImageDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ProductImageSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
     queryset = ProductImage.objects.all()
     lookup_field = "id"

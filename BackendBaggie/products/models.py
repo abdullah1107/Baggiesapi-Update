@@ -5,7 +5,7 @@ from productsCategory.models import ProductsCategory
 # Create your models here.
 def upload_productCoverImage(instance, filename, **kwargs):
 	file_path = 'prodcutCoverImage/{productID}/{productName}-{filename}'.format(
-			productID = str(instance.productID),imageName=str(instance.productName), filename=filename
+			productID = str(instance.productID),imageName=str(instance.productname), filename=filename
 		)
 	return file_path
 
@@ -28,10 +28,13 @@ class Products(models.Model):
 	productapprovalstatus   = models.BooleanField(default=False)
 	isrecentproduct         = models.CharField(choices=CATEGORY_OPTIONS, max_length=100)
 	vendorID                = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, null=True)
-	productcategoryID       = models.ForeignKey(ProductsCategory, on_delete=models.DO_NOTHING)
+	productcategoryID       = models.ForeignKey(ProductsCategory, on_delete=models.DO_NOTHING, null=True)
 
 	class Meta:
 		ordering: ['-productUpdate']
 
 	def __str__(self):
-		return str(self.productName)
+		return str(self.productname)
+
+	def save(self, *args, **kwargs):
+		super(Products, self).save(*args, **kwargs)

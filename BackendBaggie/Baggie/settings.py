@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'productsImage',
     'cartview',
     'reviewproduct',
+    'poll',
 ]
 
 MIDDLEWARE = [

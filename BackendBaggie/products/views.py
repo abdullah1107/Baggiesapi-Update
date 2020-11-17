@@ -4,7 +4,7 @@ from products.permissions import IsOwner
 from headers import *
 
 class ProductsListAPIView(ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProductsSerializer
     queryset = Products.objects.all()
     # filter_backends = (filters.DjangoFilterBackend,)
@@ -19,7 +19,7 @@ class ProductsListAPIView(ListCreateAPIView):
 
 
 class ProductsDetailAPIView(RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProductsSerializer
     queryset = Products.objects.all()
     lookup_field = "id"

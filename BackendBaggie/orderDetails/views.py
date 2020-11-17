@@ -7,7 +7,8 @@ class OrderDetailsListAPIView(ListCreateAPIView):
 
     serializer_class = OrderDetailsSerializer
     queryset = OrderDetails.objects.all()
-    permission_classes = (permissions.IsAuthenticated,)
+    lookup_field = 'id'
+    # permission_classes = (permissions.IsAuthenticated,)
 
 
     # def perform_create(self, serializer):
@@ -19,7 +20,7 @@ class OrderDetailsListAPIView(ListCreateAPIView):
 
 class OrderDetailsAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = OrderDetailsSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     #permission_classes = (permissions.IsAuthenticated, IsOwner,)
     queryset = OrderDetails.objects.all()
     lookup_field = "id"

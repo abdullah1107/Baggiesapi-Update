@@ -28,11 +28,11 @@ class CanEditProperty(BasePermission):
     """Client admins should be able to edit property they own"""
 
     def has_permission(self, request, view):
-        print('user hi :', request.user.id)
+        #print('user hi :', request.user.id)
         user = request.user
         if request.method in SAFE_METHODS:
             return True
-        if user.role == 'vendor' and user.id:
+        if user.role == 'vendor' and user.is_authenticated:
             return True
         else:
             return False
