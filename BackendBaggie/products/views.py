@@ -5,13 +5,18 @@ from products.permissions import CanEditPermissionForProducts
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import api_view
 
-@api_view(['POST'])
-def onlyproduct_Create(request):
-    serializer = ProductNestedSerializer(data=request.data)
+# @api_view(['POST'])
+# def onlyproduct_Create(request):
+#     serializer = ProductNestedSerializer(data=request.data)
+#
+#     if serializer.is_valid():
+#         serializer.save()
+#     return Response(serializer.data)
 
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+class ProductsListWithoutAPIView(generics.CreateAPIView):
+	permission_classes = (CanEditPermissionForProducts,)
+	serializer_class = ProductNestedSerializer
+	queryset = Products.objects.all()
 
 class ProductsListAPIView(generics.ListAPIView):
 	permission_classes = (CanEditPermissionForProducts,)
@@ -24,15 +29,11 @@ class ProductsListAPIView(generics.ListAPIView):
 	search_fields = __basic_fields
 
 
-class ProductsListWithImageAPIView(generics.ListCreateAPIView):
+class ProductsListWithImageAPIView(generics.CreateAPIView):
 	permission_classes = (CanEditPermissionForProducts,)
-	__basic_fields = ('productname','productpriceoriginal','productUpdate','isrecentproduct','vendorID__vandorName','productcategoryID__categoryName')
 	serializer_class = ProductsSerializer
 	queryset = Products.objects.all()
-	filter_backends = (filters.DjangoFilterBackend, SearchFilter, OrderingFilter)
 
-	filter_fields = __basic_fields
-	search_fields = __basic_fields
 
 
 class ProductsDetailAPIView(RetrieveUpdateDestroyAPIView):

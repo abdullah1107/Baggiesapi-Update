@@ -11,12 +11,12 @@ class OrderDetails(models.Model):
     orderprice      = models.DecimalField(max_digits=150, decimal_places=3, null=False)
     orderQuantity   = models.CharField(max_length=150, null=True)
     toalprice       = models.DecimalField(max_digits=150, decimal_places=3, null=False)
-    orderTrakingNumber= models.CharField(
-               max_length = 10,
-               blank=True,
-               editable=False,
-               unique=True,
-               default=create_new_ref_number())
+    # orderTrakingNumber= models.CharField(
+    #            max_length = 10,
+    #            blank=True,
+    #            editable=False,
+    #            unique=True,
+    #            default=create_new_ref_number())
 
     """docstring forOrderDetails."""
 
