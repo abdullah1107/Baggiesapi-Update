@@ -27,7 +27,7 @@ class Products(models.Model):
 	productapprovalstatus   = models.BooleanField(default=False)
 	isrecentproduct         = models.CharField(choices=CATEGORY_OPTIONS, max_length=100)
 	vendorID                = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, null=True)
-	productcategoryID       = models.ForeignKey(ProductsCategory, on_delete=models.DO_NOTHING, null=True)
+	productcategoryID       = models.ForeignKey(ProductsCategory, on_delete=models.DO_NOTHING, null=True, related_name="nested_products")
 
 	class Meta:
 		ordering: ['-productUpdate']

@@ -9,6 +9,7 @@ class ProductImageListAPIView(ListCreateAPIView):
     # permission_classes = (permissions.IsAuthenticated,IsAuthorOrReadOnly,)
     serializer_class = ProductImageSerializer
     queryset = ProductImage.objects.all()
+    lookup_field = "id"
 
 
     # def perform_create(self, serializer):

@@ -1,7 +1,6 @@
 from django.db import models
 from users.models import CustomUser
-from utils import create_new_ref_number
-#from orderDetails.models import OrderDetails
+
 
 # Create your models here.
 class  Order(models.Model):
@@ -14,20 +13,10 @@ class  Order(models.Model):
     orderemail      = models.EmailField(verbose_name = "email", max_length = 35, null=True)
     orderDate       = models.DateTimeField(auto_now=True)
     orderShipped    = models.BooleanField(default=False)
-    #orderTrakingNumber= models.CharField(
-           # max_length = 10,
-           # blank=True,
-           # editable=False,
-           # unique=True,
-           # default=create_new_ref_number())
-    #
-    # """docstring for  Order."""
-    # class Meta:
-    #     ordering: ['-orderDate']
+
+    """docstring for  Order."""
+    class Meta:
+        ordering: ['-orderDate']
 
     def __str__(self):
         return str(self.orderDate)
-
-    # @property
-    # def choices(self):
-    #     return self.choice_set.all()

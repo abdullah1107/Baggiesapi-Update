@@ -1,31 +1,34 @@
 from orders.models import Order
 from orders.serializers import OrderSerializer
-from permissions import IsOwner
 from headers import *
-# Create your views here.
+from orders.permissions import CanCreatePermissionforCustomer
 
-from orderDetails.models import *
-from orderDetails.serializers import *
-from orders.models import *
-from orders.serializers import *
-from headers import *
-
-# class PostUserWritePermission(BasePermission):
-#     message = 'Editing posts is restricted to the author only.'
-#
-#     def has_object_permission(self, request, view, obj):
-#
-#         if request.method in SAFE_METHODS:
-#             return True
-#
-#         return obj.owner == request.user
 
 class OrderListAPIView(ListCreateAPIView):
-    #permission_classes = (permissions.IsAuthenticated,PostUserWritePermission)
+    permission_classes = (CanCreatePermissionforCustomer,)
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+class OrderDetailAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (CanCreatePermissionforCustomer,)
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
     lookup_field = "id"
 
+
+
+
+
+
+
+
+
+
+
+## if loking for only method based then see ProductCategory
+
+################################################################################
+# when using only APIView
     # @action(detail=True, methods=["GET"])
     # def choices(self, request, id=None):
     #     order = self.get_object()
@@ -45,11 +48,7 @@ class OrderListAPIView(ListCreateAPIView):
     #     return Response(serializer.erros, status=400)
 
 
-class OrderDetailAPIView(RetrieveUpdateDestroyAPIView):
-    #permission_classes = (permissions.IsAuthenticated,PostUserWritePermission)
-    serializer_class = OrderSerializer
-    queryset = Order.objects.all()
-    lookup_field = "id"
+
 
     # def get_queryset(self):
     #     return self.queryset.filter(owner=self.request.user)

@@ -3,6 +3,6 @@ from productsImage.views import ProductImageListAPIView, ProductImageDetailAPIVi
 
 
 urlpatterns = [
-    path('', ProductImageListAPIView.as_view(), name = "ProductImageList"),
-    path('<int:id>', ProductImageDetailAPIView.as_view(), name = "ProductImageDetails"),
+    path('api/v1/', ProductImageListAPIView.as_view(), name = "ProductImageList"),
+    path('api/v1/<int:id>', ProductImageDetailAPIView.as_view(), name = "ProductImageDetails"),
 ]

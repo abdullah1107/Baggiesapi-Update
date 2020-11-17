@@ -1,11 +1,32 @@
 from rest_framework import serializers
 from products.models import Products
 from productsImage.models import ProductImage
-from productsCategory.serializers import  ProductsCategorySerializer
-from productsCategory.models import ProductsCategory
 from productsImage.serializers import ProductNestedImageSerializer
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 # from products.models import ProductImage
+
+
+class ProductNestedSerializer(serializers.ModelSerializer):
+    product_image  = ProductNestedImageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Products
+        fields = ('id',
+        'productname',
+        'productpriceoriginal',
+        'productpricesell',
+        'percentageofsell',
+        'productweight',
+        'productinstock',
+        'productcoverImage',
+        'productDetails',
+        'productUpdate',
+        'productdiscount',
+        'productapprovalstatus',
+        'isrecentproduct',
+        'vendorID',
+        'productcategoryID',
+        'product_image')
 
 class ProductsSerializer(WritableNestedModelSerializer):
     # query_set = ProductImage.objects.all()

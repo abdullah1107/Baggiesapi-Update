@@ -1,12 +1,15 @@
 from rest_framework import serializers
 from productsCategory.models import ProductsCategory
+from products.serializers import ProductNestedSerializer
 
 
 class ProductsCategorySerializer(serializers.ModelSerializer):
 	#owner = serializers.ReadOnlyField(source='owner.id')
+	nested_products = ProductNestedSerializer(many=True, read_only=True)
+
 	class Meta:
 		model = ProductsCategory
-		fields = ('id','categoryName','created_at', 'updated_at','vendorID')
+		fields = ('id','categoryName','created_at', 'updated_at','vendorID','nested_products')
 
 class ProductCategoryCreateSerializer(serializers.ModelSerializer):
 	#categoryName = serializers.CharField(max_length=15, write_only=True)

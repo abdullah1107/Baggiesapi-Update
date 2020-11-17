@@ -5,10 +5,9 @@ from orderDetails.models import OrderDetails
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 class OrderSerializer(WritableNestedModelSerializer):
-    choices  = OrderNestedDetailsSerializer(many=True,)
+    choices  = OrderNestedDetailsSerializer(many=True)
     class Meta:
         model = Order
-        #fields = '__all__'
         fields = (
         'id',
         'customerID',
@@ -21,6 +20,13 @@ class OrderSerializer(WritableNestedModelSerializer):
         'orderDate',
         'orderShipped',
         'choices')
+
+
+
+
+
+
+###############################################################################
         #read_only_fields=('choices',)
 
         # def create(self, validated_data):

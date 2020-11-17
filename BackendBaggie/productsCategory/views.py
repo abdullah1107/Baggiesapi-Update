@@ -1,13 +1,28 @@
-from productsCategory.serializers import  *
 from productsCategory.models import ProductsCategory
 from headers import *
-from django_filters import rest_framework as filters
-from rest_framework.decorators import api_view
-from rest_framework.generics import ListAPIView,CreateAPIView
 from productsCategory.permissions import CanEditProperty
-from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
-from permissions import *
+from productsCategory.serializers import(ProductsCategorySerializer,
+   ProductCategoryCreateSerializer,
+)
+
+
+class ProductsCategoryListAPIView(generics.ListCreateAPIView):
+
+	queryset = ProductsCategory.objects.all()
+	serializer_class = ProductsCategorySerializer
+	permission_classes = [CanEditProperty,]
+	filter_backends = (filters.DjangoFilterBackend,SearchFilter, OrderingFilter)
+	filterset_fields = ('categoryName',)
+	search_fields = ('categoryName',)
+
+class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+
+	#permission_classes = [CanEditProperty,]
+	queryset = ProductsCategory.objects.all()
+	serializer_class = ProductsCategorySerializer
+
+	lookup_field = "id"
 
 # class ProductCategoryList(APIView):
 #
@@ -27,13 +42,7 @@ from permissions import *
 #
 #
 #
-class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 
-	queryset = ProductsCategory.objects.all()
-	serializer_class = ProductCategoryCreateSerializer
-	#permission_classes = [CanEditProperty,]
-	filter_backends = (filters.DjangoFilterBackend,)
-	filterset_fields = ('categoryName',)
 
 	# def perform_create(self, serializer):
 	# 	user = self.request.user
@@ -44,13 +53,7 @@ class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 	# def get_queryset(self):
 	#     return self.queryset.filter(owner=self.request.user)
 #
-class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
-	#permission_classes = [CanEditProperty,]
-	queryset = ProductsCategory.objects.all()
-	serializer_class = ProductsCategorySerializer
-
-	lookup_field = "id"
 
 # class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView,PostUserWritePermission):
 #

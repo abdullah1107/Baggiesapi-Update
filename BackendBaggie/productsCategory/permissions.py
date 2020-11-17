@@ -1,6 +1,20 @@
 # from rest_framework import permissions
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
+
+class CanEditProperty(BasePermission):
+    """Client admins should be able to edit property they own"""
+
+    def has_permission(self, request, view):
+        #print('user hi :', request.user.id)
+        user = request.user
+        if request.method in SAFE_METHODS:
+            return True
+        if user.role == 'vendor' and user.is_authenticated:
+            return True
+        else:
+            return False
+
 # class IsAuthorOrReadOnly(permissions.BasePermission):
 #     # Read-only permissions are allowed for any request
 #     def has_object_permission(self, request, view, obj):
@@ -24,18 +38,6 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 #     def has_permission(self, request, view):
 #         return request.method in SAFE_METHODS
 
-class CanEditProperty(BasePermission):
-    """Client admins should be able to edit property they own"""
-
-    def has_permission(self, request, view):
-        #print('user hi :', request.user.id)
-        user = request.user
-        if request.method in SAFE_METHODS:
-            return True
-        if user.role == 'vendor' and user.is_authenticated:
-            return True
-        else:
-            return False
         #return request.method in SAFE_METHODS
 
     # def has_object_permission(self, request, view, obj):
