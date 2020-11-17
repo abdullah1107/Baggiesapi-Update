@@ -2,29 +2,29 @@ from django.shortcuts import render
 from reviewproduct.serializers import ProductReviewSerializer
 from reviewproduct.models import ProductReview
 from headers import *
-#from reviewproduct.permissions import *
+from reviewproduct.permissions import *
 from rest_framework.decorators import api_view, permission_classes
 
-# Create your views here.
+
 
 class ReviewListAPIView(generics.ListAPIView):
-	#permission_classes = (CanCreatePermissionforCustomer,)
-	#__basic_fields = ('city','phonenumber','additionalnumber','orderemail','orderDate')
+	permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor)
+	__basic_fields = ('productID','review_at','starreview')
 	queryset = ProductReview.objects.all()
 	serializer_class = ProductReviewSerializer
-	#filter_backends = (filters.DjangoFilterBackend, SearchFilter, OrderingFilter)
-	#filter_fields = __basic_fields
-	#search_fields = __basic_fields
+	filter_backends = (filters.DjangoFilterBackend, SearchFilter, OrderingFilter)
+	filter_fields = __basic_fields
+	search_fields = __basic_fields
 
 class ReviewCreateAPIView(generics.CreateAPIView):
-	#permission_classes = (CanCreatePermissionforCustomer,)
+	permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor)
 	queryset = ProductReview.objects.all()
 	serializer_class = ProductReviewSerializer
 
 
 #single Retrive
 @api_view(['GET'])
-#@permission_classes((CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,))
+@permission_classes((CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,))
 def ReviewDetails(request, pk):
 	try:
 		carts = ProductReview.objects.get(id=pk)
@@ -38,7 +38,7 @@ def ReviewDetails(request, pk):
 
 #update
 class ReviewUpdateAPIView(generics.UpdateAPIView):
-    #permission_classes = (CanUpdateDeletePermissionforVendor,)
+    permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,)
     serializer_class = ProductReviewSerializer
     queryset = ProductReview.objects.all()
     lookup_field = "id"
@@ -50,7 +50,7 @@ class ReviewUpdateAPIView(generics.UpdateAPIView):
 # 	lookup_field = "id"
 
 @api_view(['DELETE'])
-#@permission_classes((CanUpdateDeletePermissionforVendor,))
+@permission_classes((CanUpdateDeletePermissionforVendor,))
 def ReviewDelete(request, pk):
     cart = ProductReview.objects.get(id=pk)
     cart.delete()
