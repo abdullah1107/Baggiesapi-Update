@@ -4,10 +4,13 @@ from productsImage.models import ProductImage
 from productsImage.serializers import ProductNestedImageSerializer
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 # from products.models import ProductImage
+from reviewproduct.serializers import ProductReviewSerializer
 
 
 class ProductNestedSerializer(serializers.ModelSerializer):
     product_image  = ProductNestedImageSerializer(many=True, read_only=True)
+    review_product = ProductReviewSerializer(many=True, read_only=True)
+
 
     class Meta:
         model = Products
@@ -26,11 +29,13 @@ class ProductNestedSerializer(serializers.ModelSerializer):
         'isrecentproduct',
         'vendorID',
         'productcategoryID',
-        'product_image')
+        'product_image',
+        'review_product')
 
 class ProductsSerializer(WritableNestedModelSerializer):
     # query_set = ProductImage.objects.all()
     product_image  = ProductNestedImageSerializer(many=True)
+    review_product = ProductReviewSerializer(many=True, read_only=True)
     class Meta:
         model = Products
         fields = ('id',
@@ -48,7 +53,8 @@ class ProductsSerializer(WritableNestedModelSerializer):
         'isrecentproduct',
         'vendorID',
         'productcategoryID',
-        'product_image')
+        'product_image',
+        'review_product')
 
     # def create(self, validated_data):
     #     images_data = self.context.get('view').request.FILES

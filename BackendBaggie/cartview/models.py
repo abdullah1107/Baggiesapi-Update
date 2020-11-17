@@ -4,8 +4,8 @@ from users.models import CustomUser
 
 # Create your models here.
 class CartVeiw(models.Model):
-    productID    = models.ForeignKey(to=Products, on_delete=models.DO_NOTHING)
-    customerID   = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
+    productID    = models.ForeignKey(to=Products, on_delete=models.CASCADE)
+    customerID   = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE,related_name="pinfo")
     review_at    = models.DateTimeField(auto_now_add=True)
     cartstatus   = models.BooleanField(default=True)
 

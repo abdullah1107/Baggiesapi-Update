@@ -39,7 +39,7 @@ urlpatterns = [
 
      #path('exam/', include('poll.urls')),
 
-    # path('reviewproduct/', include('reviewproduct.urls')),
+     path('reviewproduct/', include('reviewproduct.urls')),
 
      path('cartview/', include('cartview.urls')),
 

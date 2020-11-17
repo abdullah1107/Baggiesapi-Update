@@ -52,6 +52,6 @@ class CartUpdateAPIView(generics.UpdateAPIView):
 @api_view(['DELETE'])
 #@permission_classes((CanUpdateDeletePermissionforVendor,))
 def cartDelete(request, pk):
-    order = Order.objects.get(id=pk)
-    order.delete()
+    cart = CartVeiw.objects.get(id=pk)
+    cart.delete()
     return Response("Order Deleted Successfully")
