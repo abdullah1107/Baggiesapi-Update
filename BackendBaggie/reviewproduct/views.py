@@ -5,8 +5,6 @@ from headers import *
 from reviewproduct.permissions import *
 from rest_framework.decorators import api_view, permission_classes
 
-
-
 class ReviewListAPIView(generics.ListAPIView):
 	permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor)
 	__basic_fields = ('productID','review_at','starreview')
