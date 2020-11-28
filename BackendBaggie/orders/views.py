@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 
 #list retrive
 class OrderListAPIView(generics.ListAPIView):
-	permission_classes = (CanCreatePermissionforCustomer,)
+	#permission_classes = (CanCreatePermissionforCustomer,)
 	__basic_fields = ('city','phonenumber','additionalnumber','orderemail','orderDate')
 	queryset = Order.objects.all()
 	serializer_class = OrderSerializer
@@ -15,14 +15,14 @@ class OrderListAPIView(generics.ListAPIView):
 	search_fields = __basic_fields
 
 class OrderCreateAPIView(generics.CreateAPIView):
-	permission_classes = (CanCreatePermissionforCustomer,)
+	#permission_classes = (CanCreatePermissionforCustomer,)
 	queryset = Order.objects.all()
 	serializer_class = OrderSerializer
 
 
 #single Retrive
 @api_view(['GET'])
-@permission_classes((CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,))
+#@permission_classes((CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,))
 def ordersDetail(request, pk):
 	try:
 		orders = Order.objects.get(id=pk)
@@ -36,7 +36,7 @@ def ordersDetail(request, pk):
 
 #update
 class OrderUpdateAPIView(generics.UpdateAPIView):
-    permission_classes = (CanUpdateDeletePermissionforVendor,)
+    #permission_classes = (CanUpdateDeletePermissionforVendor,)
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
     lookup_field = "id"
@@ -48,7 +48,7 @@ class OrderUpdateAPIView(generics.UpdateAPIView):
 # 	lookup_field = "id"
 
 @api_view(['DELETE'])
-@permission_classes((CanUpdateDeletePermissionforVendor,))
+#@permission_classes((CanUpdateDeletePermissionforVendor,))
 def orderDelete(request, pk):
     order = Order.objects.get(id=pk)
     order.delete()

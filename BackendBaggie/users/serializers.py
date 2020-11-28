@@ -18,10 +18,11 @@ class RegisterVendonSerializer(serializers.ModelSerializer):
 	password = serializers.CharField(
 		max_length=68, min_length=6, write_only=True)
 	#firstName = serializers.CharField(max_length=50, read_only=True)
+	#profileImage = serializers.HyperlinkSerializer()
 
 	class Meta:
 		model = CustomUser
-		fields = ('id','email','vandorName','firstName','lastName','password', 'mobileNumber')
+		fields = ('id','email','profileImage','vandorName','password', 'mobileNumber')
 
 	# def validate(self, attrs):
 	# 	firstName = attrs.get('firstName', '')
@@ -137,8 +138,10 @@ class LoginVendorSerializer(serializers.ModelSerializer):
 
 		return {
 		    'id':user.id,
+			'vandorName':user.vandorName,
 			'firstName':user.firstName,
 			'lastName':user.lastName,
+			'profileImage':user.profileImage,
 			'mobileNumber':user.mobileNumber,
 			'email': user.email,
 			'tokens': user.tokens
@@ -256,7 +259,7 @@ class LogoutSerializer(serializers.Serializer):
 # 			raise AuthenticationFailed('The reset link is invalid', 401)
 # 		return super().validate(attrs)
 #
-class CustomUserSerilizer(serializers.ModelSerializer):
+class CustomVendorSerilizer(serializers.ModelSerializer):
 	class Meta:
 		model  = CustomUser
-		fields = ('id','email','mobileNumber','role')
+		fields = ('id','email','firstName','lastName','vandorName','mobileNumber','role','profileImage')

@@ -3,6 +3,7 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class CanEditProperty(BasePermission):
+    message = 'Adding customers not allowed.'
     """Client admins should be able to edit property they own"""
 
     def has_permission(self, request, view):
@@ -10,6 +11,10 @@ class CanEditProperty(BasePermission):
         user = request.user
         if request.method in SAFE_METHODS:
             return True
+        # role = request.data.get('role')
+        # print("role",role)
+        if user.role == 'customers':
+            return False
         if user.role == 'vendor' and user.is_authenticated:
             return True
         else:

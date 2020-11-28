@@ -18,26 +18,23 @@ from imagekit.processors import ResizeToFill, ResizeToFill
 
 
 class MyAccountManager(BaseUserManager):
-	def create_vendoruser(self,vandorName=None, firstName=None,lastName=None,email=None,mobileNumber=None,password=None,role='vendor'):
+	def create_vendoruser(self,vandorName=None,profileImage=None,email=None,mobileNumber=None,password=None,role='vendor'):
 		if email is None:
 			raise TypeError('Users should have a Email')
 		if mobileNumber is None:
 			raise TypeError('User should have a MobileNumber')
-		if firstName is None:
-			raise TypeError('User should have a FirstName')
-		if lastName is None:
-			raise TypeError('User should have a LastName')
 		if vandorName is None:
 			raise TypeError("Vandor should have a vandorName")
+		if profileImage is None:
+			raise TypeError("Please add your Company Images")
 		user = self.model(
 		vandorName=vandorName,
-		firstName =firstName,
-		lastName = lastName,
+		profileImage =profileImage,
 		mobileNumber=mobileNumber,
 		email=self.normalize_email(email))
 		user.set_password(password)
 		user.role = role
-		if firstName != None and lastName !=None:
+		if profileImage != None and vandorName !=None:
 			user.save()
 		else:
 			return user
@@ -88,7 +85,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 	vandorName    = models.CharField(max_length=350, null=True, unique=True)
 	name          = models.CharField(max_length=100, null=True)
 	mobileNumber  = models.CharField(max_length= 15, unique=True, null=True)
-	profileImage  = models.ImageField(upload_to='profiles/', null=True, blank=True)
+	profileImage  = models.ImageField(upload_to='profiles/', null=True)
 	varificationNumber = models.CharField(null=True, max_length=350)
 	is_active     = models.BooleanField(default=True)
 	is_staff      = models.BooleanField(default= False)

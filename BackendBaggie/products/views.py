@@ -14,12 +14,12 @@ from rest_framework.decorators import api_view
 #     return Response(serializer.data)
 
 class ProductsListWithoutAPIView(generics.CreateAPIView):
-	permission_classes = (CanEditPermissionForProducts,)
+	#permission_classes = (CanEditPermissionForProducts,)
 	serializer_class = ProductNestedSerializer
 	queryset = Products.objects.all()
 
 class ProductsListAPIView(generics.ListAPIView):
-	permission_classes = (CanEditPermissionForProducts,)
+	#permission_classes = (CanEditPermissionForProducts,)
 	__basic_fields = ('productname','productpriceoriginal','productUpdate','isrecentproduct','vendorID__vandorName','productcategoryID__categoryName')
 	serializer_class = ProductNestedSerializer
 	queryset = Products.objects.all()
@@ -30,14 +30,14 @@ class ProductsListAPIView(generics.ListAPIView):
 
 
 class ProductsListWithImageAPIView(generics.CreateAPIView):
-	permission_classes = (CanEditPermissionForProducts,)
+	#permission_classes = (CanEditPermissionForProducts,)
 	serializer_class = ProductsSerializer
 	queryset = Products.objects.all()
 
 
 
 class ProductsDetailAPIView(RetrieveUpdateDestroyAPIView):
-	permission_classes = (CanEditPermissionForProducts,)
+	#permission_classes = (CanEditPermissionForProducts,)
 	serializer_class = ProductsSerializer
 	queryset = Products.objects.all()
 	lookup_field = "id"

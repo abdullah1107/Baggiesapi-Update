@@ -6,7 +6,7 @@ from reviewproduct.permissions import *
 from rest_framework.decorators import api_view, permission_classes
 
 class ReviewListAPIView(generics.ListAPIView):
-	permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor)
+	#permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor)
 	__basic_fields = ('productID','review_at','starreview')
 	queryset = ProductReview.objects.all()
 	serializer_class = ProductReviewSerializer
@@ -15,14 +15,14 @@ class ReviewListAPIView(generics.ListAPIView):
 	search_fields = __basic_fields
 
 class ReviewCreateAPIView(generics.CreateAPIView):
-	permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor)
+	#permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor)
 	queryset = ProductReview.objects.all()
 	serializer_class = ProductReviewSerializer
 
 
 #single Retrive
 @api_view(['GET'])
-@permission_classes((CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,))
+#@permission_classes((CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,))
 def ReviewDetails(request, pk):
 	try:
 		carts = ProductReview.objects.get(id=pk)
@@ -36,7 +36,7 @@ def ReviewDetails(request, pk):
 
 #update
 class ReviewUpdateAPIView(generics.UpdateAPIView):
-    permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,)
+    #permission_classes = (CanCreatePermissionforCustomer,CanUpdateDeletePermissionforVendor,)
     serializer_class = ProductReviewSerializer
     queryset = ProductReview.objects.all()
     lookup_field = "id"
@@ -48,7 +48,7 @@ class ReviewUpdateAPIView(generics.UpdateAPIView):
 # 	lookup_field = "id"
 
 @api_view(['DELETE'])
-@permission_classes((CanUpdateDeletePermissionforVendor,))
+#@permission_classes((CanUpdateDeletePermissionforVendor,))
 def ReviewDelete(request, pk):
     cart = ProductReview.objects.get(id=pk)
     cart.delete()

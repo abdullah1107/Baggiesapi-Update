@@ -10,7 +10,7 @@ from users.serializers import (
     SetNewPasswordSerializer,
     LogoutSerializer,
     ResetPasswordEmailRequestSerializer,
-    CustomUserSerilizer,
+    CustomVendorSerilizer,
     )
 from users.utils import Util
 from users.renderers import UserRenderer,UserJSONRenderer
@@ -194,7 +194,10 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
 
 class AccountlistView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerilizer
+    serializer_class = CustomVendorSerilizer
+    filter_backends = (filters.DjangoFilterBackend,SearchFilter, OrderingFilter)
+    filterset_fields = ('role',)
+    search_fields = ('role',)
 
 
 # class PasswordTokenCheckAPI(generics.GenericAPIView):

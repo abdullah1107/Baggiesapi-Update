@@ -9,16 +9,20 @@ from productsCategory.serializers import(ProductsCategorySerializer,
 
 class ProductsCategoryListAPIView(generics.ListCreateAPIView):
 
-	queryset = ProductsCategory.objects.all()
-	serializer_class = ProductsCategorySerializer
 	permission_classes = [CanEditProperty,]
-	filter_backends = (filters.DjangoFilterBackend,SearchFilter, OrderingFilter)
-	filterset_fields = ('categoryName',)
-	search_fields = ('categoryName',)
+	try:
+		if permission_classes:
+			queryset = ProductsCategory.objects.all()
+			serializer_class = ProductsCategorySerializer
+			filter_backends = (filters.DjangoFilterBackend,SearchFilter, OrderingFilter)
+			filterset_fields = ('categoryName',)
+			search_fields = ('categoryName',)
+	except Exception as ex:
+		Response('not permission Allowed')
 
 class ProductsCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
-	#permission_classes = [CanEditProperty,]
+	permission_classes = [CanEditProperty,]
 	queryset = ProductsCategory.objects.all()
 	serializer_class = ProductsCategorySerializer
 

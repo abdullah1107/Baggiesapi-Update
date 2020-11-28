@@ -40,7 +40,7 @@ path('logout/', LogoutAPIView.as_view(), name="logout"),
 #####################################################################
 path('social/google/', GoogleSocialAuthView.as_view()),
 
-path('customerlist/', AccountlistView.as_view()),
+path('vendorlist/', AccountlistView.as_view()),
 
 ]
 

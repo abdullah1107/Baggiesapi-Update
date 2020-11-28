@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from productsImage.serializers import ProductImageSerializer
 from productsImage.models import ProductImage
-from permissions import IsOwner,IsAuthorOrReadOnly,IsAdminUser
+#from permissions import IsOwner,IsAuthorOrReadOnly,IsAdminUser
 from headers import *
 
 # Create your views here.
@@ -9,7 +9,7 @@ class ProductImageListAPIView(ListCreateAPIView):
     # permission_classes = (permissions.IsAuthenticated,IsAuthorOrReadOnly,)
     serializer_class = ProductImageSerializer
     queryset = ProductImage.objects.all()
-    lookup_field = "id"
+    #lookup_field = "id"
 
 
     # def perform_create(self, serializer):

@@ -6,7 +6,7 @@ class CanEditPermissionForProducts(BasePermission):
 
     def has_permission(self, request, view):
         #print('user hi :', request.user.id)
-        #user = request.user
+        user = request.user
         if request.method in SAFE_METHODS:
             return True
         if user.role == 'vendor' and user.is_authenticated:
