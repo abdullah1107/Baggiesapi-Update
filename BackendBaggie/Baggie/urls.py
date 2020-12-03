@@ -33,9 +33,9 @@ urlpatterns = [
 
      path('orders/', include('orders.urls')),
 
-     #path('orderdetails/', include('orderDetails.urls')),
+     path('orderdetails/', include('orderDetails.urls')),
 
-     #path('productImage/',include('productsImage.urls')),
+     path('productImage/',include('productsImage.urls')),
 
      #path('exam/', include('poll.urls')),
 

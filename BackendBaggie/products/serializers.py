@@ -7,6 +7,27 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 from reviewproduct.serializers import ProductReviewSerializer
 
 
+class ProductHomeNestedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Products
+        fields = ('id',
+        'productname',
+        'productpriceoriginal',
+        'productpricesell',
+        'percentageofsell',
+        'productweight',
+        'productinstock',
+        'productcoverImage',
+        'productDetails',
+        'productUpdate',
+        'productdiscount',
+        'productapprovalstatus',
+        'isrecentproduct',
+        'vendorID',
+        'productcategoryID'
+        )
+
 class ProductNestedSerializer(serializers.ModelSerializer):
     product_image  = ProductNestedImageSerializer(many=True, read_only=True)
     review_product = ProductReviewSerializer(many=True, read_only=True)
