@@ -21,7 +21,7 @@ class Products(models.Model):
 	  ]
 	productname             = models.CharField(max_length=350, null=True)
 	productpriceoriginal    = models.DecimalField(max_digits=20, decimal_places=3, null=True)
-	productpricesell        = models.DecimalField(max_digits=20, decimal_places=3, null=True)
+	sellproductprice        = models.DecimalField(max_digits=20, decimal_places=3, null=True)
 	percentageofsell        = models.CharField(max_length = 35, null = True)
 	productweight           = models.CharField(max_length = 35, null = True)
 	productinstock          = models.BooleanField(default=True)
