@@ -465,7 +465,7 @@ Before deploying:
 
 ## License
 
-See [LICENSE](../LICENSE).
+See [LICENSE](MIT License)
 
 ## Author
 
